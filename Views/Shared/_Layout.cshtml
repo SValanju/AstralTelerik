@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+
+    @*Changes*@
+    <link href="~/Content/kendo/2022.2.510/kendo.bootstrap-main.min.css" rel="stylesheet" />
+    <script src="~/Scripts/kendo/2022.2.510/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/2022.2.510/jszip.min.js"></script>
+    <script src="~/Scripts/kendo/2022.2.510/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2022.2.510/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/83772345fd.js" crossorigin="anonymous"></script>
+    @*Changes*@
+
+    <style>
+        .dropdown-toggle::after{
+            content: none;
+        }
+    </style>
+
+</head>
+<body class="p-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Index">Grid</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/About">Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Contact">Column Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/LineChart">Line Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/MenuPage">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/ExportAll">Export</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/ExportAllGeneric">ExportGeneric</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="openDrpdown" href="#"><i class="fa-solid fa-circle-user" style="font-size:30px;"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right mr-1 p-3">
+                        <div class="dropdown-header text-center text-dark">
+                            <h5>Welcome, User!</h5>
+                            <i class="fa-solid fa-user-pen my-3" style="font-size:40px;"></i>
+                            <h6>Logged in Module : <span><a href="#">eNet</a></span></h6>
+                        </div>
+                        <div class="dropdown-divider py-2"></div>
+                        <div class="dropdown-footer">
+                            <h5>
+                                <a href="#" class="text-muted small"><i class="fa-solid fa-pen-to-square mx-2"></i>Change Module</a>
+                            </h5>
+                            <h5>
+                                <a href="#" class="text-muted small"><i class="fa-solid fa-table-columns mx-2"></i>Portal</a>
+                            </h5>
+                            <h5>
+                                <a href="#" class="text-muted small"><i class="fa-solid fa-house mx-2"></i>Home</a>
+                            </h5>
+                            <h5>
+                                <a href="#" class="text-muted small"><i class="fa-solid fa-right-from-bracket mx-2"></i>Logout</a>
+                            </h5>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="my-5">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

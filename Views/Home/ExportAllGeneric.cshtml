@@ -1,0 +1,23 @@
+﻿<div class="container">
+
+    @(Html.Kendo().Grid<TelerikMVC.Models.Employee>()
+        .Name("grid")
+        .Columns(columns =>
+            {
+                columns.Bound(c => c.ProductID).Width(100);
+                columns.Bound(c => c.ProductName).Width(300);
+                columns.Bound(c => c.UnitPrice).Width(100);
+                columns.Bound(c => c.Discontinued).Width(200);
+            })
+        .Pageable()
+        .ToolBar(t => t.Custom()
+            .Text("Export To Excel")
+            .Url(Url.Action("ExportListUsingNPOI", "Home")))
+        .DataSource(dt => dt
+            .Ajax()
+            .PageSize(10)
+            .Read(rd => rd.Action("Select", "Home"))
+        )
+    )
+
+</div>

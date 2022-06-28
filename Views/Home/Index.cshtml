@@ -1,0 +1,32 @@
+﻿<div class="text-center">
+
+    <h2>Kendo UI Grid</h2>
+    @(Html.Kendo().Grid<TelerikMVC.Models.Employee>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.ProductID).Width(100);
+                columns.Bound(c => c.ProductName).Width(300);
+                columns.Bound(c => c.UnitPrice).Width(100);
+                columns.Bound(c => c.Discontinued).Width(200);
+            })
+            .Groupable()
+            .Pageable()
+            .Filterable()
+            .Sortable()
+            .ToolBar(t =>
+            {
+                t.Search();
+                t.Excel();
+            })
+            .Search(s =>{
+                s.Field(c => c.ProductName);
+            })
+              .Excel(excel => excel.ProxyURL(Url.Action("Excel_Export_Save", "Grid")))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(50)
+                .Read(read => read.Action("Select", "Home"))
+            )
+        )
+</div>
