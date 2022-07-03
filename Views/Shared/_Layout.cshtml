@@ -20,7 +20,7 @@
     @*Changes*@
 
     <style>
-        .dropdown-toggle::after{
+        #openDrpdown::after {
             content: none;
         }
     </style>
@@ -37,14 +37,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="~/Home/Index">Grid</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/About">Bar Chart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/Contact">Column Chart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/LineChart">Line Chart</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="charts" href="#">Charts</a>
+                    <div class="dropdown-menu" aria-labelledby="charts">
+                        <a class="dropdown-item" href="~/Home/About">Bar Chart</a>
+                        <a class="dropdown-item" href="~/Home/Contact">Column Chart</a>
+                        <a class="dropdown-item" href="~/Home/LineChart">Line Chart</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="~/Home/MenuPage">Menu</a>
@@ -76,6 +75,9 @@
                             </h5>
                             <h5>
                                 <a href="#" class="text-muted small"><i class="fa-solid fa-right-from-bracket mx-2"></i>Logout</a>
+                            </h5>
+                            <h5>
+                                <a href="~/Home/LoginPage" class="text-muted small"><i class="fa-solid fa-right-to-bracket mx-2"></i>Login</a>
                             </h5>
                         </div>
                     </div>

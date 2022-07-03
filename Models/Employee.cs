@@ -15,7 +15,7 @@ namespace TelerikMVC.Models
 
         public List<Employee> GetEmpList()
         {
-            var data = Enumerable.Range(1, 359000)
+            var data = Enumerable.Range(1, 500000)
                 .Select(index => new Employee
                 {
                     ProductID = index,

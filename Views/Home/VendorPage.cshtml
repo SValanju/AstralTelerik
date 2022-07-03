@@ -1,0 +1,337 @@
+﻿@model TelerikMVC.Models.DropDownData
+@{
+    Layout = "~/Views/Shared/VendorLayout.cshtml";
+}
+
+<head>
+    <style>
+        .active {
+            font-size: 15px;
+            color: #5161ce !important;
+            background-color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        /*#Heading1, #Heading2, #Heading3, #Heading4{
+            min-height: 60vh;
+        }*/
+
+        form label {
+            font-size: 13px;
+        }
+
+        .loader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.2);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .loaderTel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: white;
+            transform: translate(-50%,-50%);
+        }
+
+        .form-control {
+            width: auto !important;
+            height: auto !important;
+            padding: 0 !important;
+        }
+
+        .bg-light {
+            background-color: #5161ce!important;
+        }
+
+        #navbar-example2 .nav-link {
+            display: unset;
+        }
+
+        .tabsNav {
+            padding: 20px 20px 5px;
+            width: 48vw;
+        }
+    </style>
+    @*<link href="~/Content/CSS/VendorPage.css" rel="stylesheet" />
+    <script src="~/Scripts/JavaScript/VendorPage.js"></script>*@
+</head>
+
+
+<body data-spy="scroll" data-target="#navbar-example2">
+
+    <nav id="navbar-example2" class="navbar navbar-expand-sm navbar-dark bg-light sticky-top tabsNav rounded">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link px-3 active" id="1stTab" href="#Heading1"><i class="fas fa-tachometer-alt mr-2"></i>Vendor Header</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#Heading2"><i class="far fa-address-book mr-2"></i>Vendor Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#Heading3"><i class="fa-solid fa-building-columns mr-2"></i>Bank Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#Heading4"><i class="fa-solid fa-link mr-2"></i>Attachments</a>
+                </li>
+            </ul>
+        </nav>
+
+    @*<nav id="navbar-example2" class="navbar navbar-expand-custom navbar-mainbg">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#Heading1"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Heading2"><i class="far fa-address-book mr-2"></i>Address Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Heading3"><i class="far fa-clone mr-2"></i>Components</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Heading4"><i class="far fa-calendar-alt mr-2"></i>Calendar</a>
+                </li>
+            </ul>
+        </div>
+    </nav>*@
+
+    <form action="/Home/VendorForm" method="post">
+        <div id="Heading1">
+            <div class="p-5 border rounded 1stTab">
+                <h6>Vendor Header</h6>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="vendorCode">Vendor Code</label>
+                            <input type="text" id="vendorCode" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="vendorName">Vendor Name</label>
+                            <input type="text" id="vendorName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tdsCode">TDS Code</label>
+                            <input type="text" id="tdsCode" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="drpDown">DropDown</label>
+                            @Html.DropDownListFor(model => model.empList, new SelectList(Model.empList, "EmpID", "EmpName"), new { @class = "form-control", @id = "drpDown" })
+                        </div>
+                        <div class="form-group">
+                            <label for="drpDown">DropDown</label>
+                            @(Html.Kendo().DropDownList()
+                                .Name("TelerikDrpDown")
+                                .HtmlAttributes(new { @style = "width:50%" })
+                                .OptionLabel("Select Employee")
+                                .DataTextField("empName")
+                                .DataValueField("empID")
+                                .DataSource(dt=>dt
+                                    .Read(rd=>rd.Action("KendoDrpDown", "Home"))
+                                )
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Heading2" class="pt-5">
+            <div class="p-5 border rounded">
+                <h6>Vendor Details</h6>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="addCode">Address Code</label>
+                            <input type="text" id="addCode" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="addName">Address Name</label>
+                            <input type="text" id="addName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="pan">PAN Number</label>
+                            <input type="text" id="pan" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="add1">Address 1</label>
+                            <input type="text" id="add1" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="add2">Address 2</label>
+                            <input type="text" id="add2" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="add2">Address 3</label>
+                            <input type="text" id="add3" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="pin">Pincode</label>
+                            <input type="text" id="pin" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="GSTIN">GSTIN Number</label>
+                            <input type="text" id="GSTIN" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="gstReg">GSTIN Registered</label>
+                            <input type="text" id="gstReg" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Heading3" class="pt-5">
+            <div class="p-5 border rounded">
+                <h6>Bank Details</h6>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="bnkCode">Bank Code</label>
+                            <input type="text" id="bnkCode" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" id="Name" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="bnkAccNo">Bank Account Number</label>
+                            <input type="text" id="bnkAccNo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Accholder">Account Holder Name</label>
+                            <input type="text" id="Accholder" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="bnkName">Bank Name</label>
+                            <input type="text" id="bnkName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ifsc">IFSC Code</label>
+                            <input type="text" id="ifsc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="branch">Branch Name</label>
+                            <input type="text" id="branch" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Heading4" class="pt-5">
+            <div class="p-5 border rounded">
+                <h6>Attachments</h6>
+                <hr />
+                <div class="demo-section">
+                    @(Html.Kendo().Upload()
+                        .Name("files")
+                        .Async(a => a
+                            .Save("Async_Save", "Upload")
+                            .Remove("Async_Remove", "Upload")
+                            .AutoUpload(true)
+                        )
+                        .Events(ev => ev
+                            .Progress("onProgress")
+                            .Complete("onComplete")
+                        )
+                    )
+                </div>
+                <div class="loader">
+                    <div class="loaderTel">
+                        @(Html.Kendo().Loader()
+                            .Name("loader")
+                            .Size(LoaderSize.Large)
+                            .ThemeColor(LoaderThemeColor.Primary)
+                            .Type(LoaderType.ConvergingSpinner)
+                        )
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-center my-5">
+            <button class="btn btn-primary mx-3" type="submit">Login</button>
+            <button class="btn btn-secondary mx-3" type="reset">Cancel</button>
+        </div>
+    </form>
+
+    <script>
+        $(function () {
+            $(".loader").hide();
+        })
+        function onProgress() {
+            $(".loader").show();
+        }
+        function onComplete() {
+            $(".loader").hide();
+        }
+
+
+        $(window).scroll(function () {
+            var top_of_element = $(".1stTab").offset().top;
+            var bottom_of_element = $(".1stTab").offset().top + $(".1stTab").outerHeight();
+            var bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
+            var top_of_screen = $(window).scrollTop();
+
+            if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
+                // the element is visible, do something
+                $("#1stTab").addClass("active");
+            } else {
+                // the element is not visible, do something else
+                $("#1stTab").removeClass("active");
+            }
+        });
+    </script>
+</body>

@@ -13,6 +13,9 @@ using System.Web.UI.WebControls;
 using System.Data;
 using NPOI.SS.UserModel;
 using System.Reflection;
+using static TelerikMVC.Models.DropDownData;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace TelerikMVC.Controllers
 {
@@ -58,19 +61,29 @@ namespace TelerikMVC.Controllers
             return View();
         }
 
+        public ActionResult LoginPage()
+        {
+            return View();
+        }
+
+        public ActionResult VendorPage()
+        {
+            DropDownData drpdwnList = new DropDownData
+            {
+                empList = GetEmployeeList()
+            };
+            return View(drpdwnList);
+        }
+
+        public ActionResult tets()
+        {
+            return View();
+        }
 
         public ActionResult Select([DataSourceRequest] DataSourceRequest request)
         {
             try
             {
-                //var data = Enumerable.Range(1, 500000)
-                //.Select(index => new Employee
-                //{
-                //    ProductID = index,
-                //    ProductName = "Product #" + index,
-                //    UnitPrice = index * 10,
-                //    Discontinued = false
-                //}).ToList();
                 List<Employee> data = new List<Employee>();
                 Employee emp = new Employee();
                 data = emp.GetEmpList();
@@ -82,11 +95,6 @@ namespace TelerikMVC.Controllers
             }
             return null;
         }
-
-
-
-
-
 
 
 
@@ -133,48 +141,14 @@ namespace TelerikMVC.Controllers
 
             //Write the workbook to a memory stream
             MemoryStream output = new MemoryStream();
-                workbook.Write(output);
+            workbook.Write(output);
 
-                //Return the result to the end user
-                return File(output.ToArray(),   //The binary data of the XLS file
-                    "application/vnd.ms-excel", //MIME type of Excel files
-                    "GridExcelExport.xlsx");     //Suggested file name in the "Save as" dialog which will be displayed to the end user
+            //Return the result to the end user
+            return File(output.ToArray(),   //The binary data of the XLS file
+                "application/vnd.ms-excel", //MIME type of Excel files
+                "GridExcelExport.xlsx");     //Suggested file name in the "Save as" dialog which will be displayed to the end user
         }
 
-
-        //ClosedXML
-        //public ActionResult ExportToExcel()
-        //{
-        //    var gv = new GridView();
-
-        //    var data = Enumerable.Range(1, 100000)
-        //        .Select(index => new Employee
-        //        {
-        //            ProductID = index,
-        //            ProductName = "Product #" + index,
-        //            UnitPrice = index * 10,
-        //            Discontinued = false
-        //        }).ToList();
-
-        //    gv.DataSource = data;
-        //    gv.DataBind();
-
-        //    Response.ClearContent();
-        //    Response.Buffer = true;
-        //    Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
-        //    Response.ContentType = "application/ms-excel";
-        //    Response.Charset = "";
-        //    StringWriter objStringWriter = new StringWriter();
-        //    HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
-
-        //    gv.RenderControl(objHtmlTextWriter);
-
-        //    Response.Output.Write(objStringWriter.ToString());
-        //    Response.Flush();
-        //    Response.End();
-
-        //    return View("Index");
-        //}
 
 
         //NPOI export all Generic
@@ -292,6 +266,107 @@ namespace TelerikMVC.Controllers
             //Call NPOI method with xlx output
             WriteExcelWithNPOI(Datatble, "xlsx");
         }
+
+
+
+
+
+
+
+        // vendor login page
+        public ActionResult VendorLogin()
+        {
+            return View("tets");
+        }
+
+        public ActionResult Async_Save(IEnumerable<HttpPostedFileBase> files)
+        {
+            // The Name of the Upload component is "files"
+            if (files != null)
+            {
+                foreach (var file in files)
+                {
+                    // Some browsers send file names with full path.
+                    // We are only interested in the file name.
+                    var fileName = Path.GetFileName(file.FileName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+
+                    // The files are not actually saved in this demo
+                    // file.SaveAs(physicalPath);
+                }
+            }
+
+            // Return an empty string to signify success
+            return Content("");
+        }
+
+        public ActionResult Async_Remove(string[] fileNames)
+        {
+            // The parameter of the Remove action must be called "fileNames"
+
+            if (fileNames != null)
+            {
+                foreach (var fullName in fileNames)
+                {
+                    var fileName = Path.GetFileName(fullName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+
+                    // TODO: Verify user permissions
+
+                    if (System.IO.File.Exists(physicalPath))
+                    {
+                        // The files are not actually removed in this demo
+                        // System.IO.File.Delete(physicalPath);
+                    }
+                }
+            }
+
+            // Return an empty string to signify success
+            return Content("");
+        }
+
+
+
+
+
+
+
+        //dropdown from database
+        public List<Employee_List> GetEmployeeList()
+        {
+            string conString = ConfigurationManager.ConnectionStrings["dbName"].ConnectionString;
+            List<Employee_List> Employees = new List<Employee_List>();
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                SqlCommand cmd = new SqlCommand("select * from Employees order by ID", con);
+                con.Open();
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    while (sdr.Read())
+                    {
+                        Employees.Add(new Employee_List
+                        {
+                            EmpID = Convert.ToInt32(sdr["ID"]),
+                            EmpName = Convert.ToString(sdr["EmpName"])
+                        });
+                    }
+                }
+                con.Close();
+            }
+            return Employees;
+        }
+
+        public JsonResult KendoDrpDown()
+        {
+            DropDownData drpdwnList = new DropDownData
+            {
+                empList = GetEmployeeList()
+            };
+            return Json(drpdwnList.empList.Select(e => new { empName = e.EmpName, empID = e.EmpID }), JsonRequestBehavior.AllowGet);
+            //var data = new List<Employee_List>();
+            //return Json(data.Select(e => new { empName = e.EmpName, empID = e.EmpID }), JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }
