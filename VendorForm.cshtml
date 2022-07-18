@@ -1,0 +1,211 @@
+﻿@model TelerikMVC.Models.StepperExample
+
+@{
+    ViewBag.Title = "VendorForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm("VendorForm", "Home", FormMethod.Post))
+{
+    <div class="container">
+        @(Html.Kendo().Stepper()
+            .Name("stepper")
+            .Linear(true)
+            .Orientation(StepperOrientationType.Horizontal)
+            .Steps(s =>
+            {
+                s.Add().Label("Vendor Details").Icon("user").Selected(true);
+                s.Add().Label("Education").Icon("dictionary-add");
+                s.Add().Label("Experience").Icon("flip-vertical");
+                s.Add().Label("Submit").Icon("file-add");
+            })
+            .Events(events => events.Select("onSelect"))
+        )
+    
+
+
+        <div id="vendorDetails">
+            <h1>Vendor Details</h1>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form1.FName)
+                    @Html.TextBoxFor(m => m.form1.FName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form1.FName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form1.LName)
+                    @Html.TextBoxFor(m => m.form1.LName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form1.LName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form1.Country)
+                    @Html.TextBoxFor(m => m.form1.Country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form1.Country, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form1.Mobile)
+                    @Html.TextBoxFor(m => m.form1.Mobile, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form1.Mobile, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form1.Email)
+                    @Html.TextBoxFor(m => m.form1.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form1.Email, "", new { @class = "text-danger " })
+                </div>
+                <button type="button" onclick="next('Vendor Details')" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
+
+        <div id="Education">
+            <h1>Education</h1>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form2.FName)
+                    @Html.TextBoxFor(m => m.form2.FName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form2.FName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form2.LName)
+                    @Html.TextBoxFor(m => m.form2.LName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form2.LName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form2.Country)
+                    @Html.TextBoxFor(m => m.form2.Country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form2.Country, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form2.Mobile)
+                    @Html.TextBoxFor(m => m.form2.Mobile, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form2.Mobile, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form2.Email)
+                    @Html.TextBoxFor(m => m.form2.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form2.Email, "", new { @class = "text-danger " })
+                </div>
+                <button type="button" onclick="next('Education')" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
+
+        <div id="Experience">
+            <h1>Experience</h1>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form3.FName)
+                    @Html.TextBoxFor(m => m.form3.FName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form3.FName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form3.LName)
+                    @Html.TextBoxFor(m => m.form3.LName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form3.LName, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form3.Country)
+                    @Html.TextBoxFor(m => m.form3.Country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form3.Country, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form3.Mobile)
+                    @Html.TextBoxFor(m => m.form3.Mobile, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form3.Mobile, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.form3.Email)
+                    @Html.TextBoxFor(m => m.form3.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.form3.Email, "", new { @class = "text-danger " })
+                </div>
+                <button type="button" onclick="next('Experience')" class="btn btn-primary">Next</button>
+
+            </div>
+        </div>
+
+        <div id="Submit">
+            <h1>Submit</h1>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+}
+
+
+<script>
+    $(function () {
+        form1();
+    });
+
+    function next(currentForm) {
+        var stepper = $('#stepper').data('kendoStepper');
+        switch (currentForm) {
+            case "Vendor Details":
+                stepper.select(1);
+                form2();
+                break;
+            case "Education":
+                stepper.select(2);
+                form3();
+                break;
+            case "Experience":
+                stepper.select(3);
+                form4();
+                break;
+            default:
+                stepper.select(0);
+                form1();
+                break;
+        }
+    }
+
+    function onSelect(e) {
+        console.log("Selected: " + e.step.options.label);
+        switch (e.step.options.label) {
+            case "Vendor Details":
+                form1();
+                break;
+            case "Education":
+                form2();
+                break;
+            case "Experience":
+                form3();
+                break;
+            case "Submit":
+                form4();
+                break;
+
+        }
+    }
+
+    function form1() {
+        $('#vendorDetails').show();
+        $('#Education').hide();
+        $('#Experience').hide();
+        $('#Submit').hide();
+    }
+
+    function form2() {
+        $('#vendorDetails').hide();
+        $('#Education').show();
+        $('#Experience').hide();
+        $('#Submit').hide();
+    }
+
+    function form3() {
+        $('#vendorDetails').hide();
+        $('#Education').hide();
+        $('#Experience').show();
+        $('#Submit').hide();
+    }
+
+    function form4() {
+        $('#vendorDetails').hide();
+        $('#Education').hide();
+        $('#Experience').hide();
+        $('#Submit').show();
+    }
+</script>
